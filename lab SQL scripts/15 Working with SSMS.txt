@@ -1,0 +1,60 @@
+Using SSMS
+Ctrl + Alt + G: View Registered Servers
+Make and manage connections
+
+Group server query:
+Allows you to query a group of servers as if they were on the same server.
+Ctrl + Alt + G: View Registered Servers
+Right click on top level group folder (you can't use shift or ctrl click to highlight multiple servers, you have to use folders)
+New Query
+Query Window will show Connected (x/x)
+To show all connected servers, run `SELECT @@servername AS Server`
+ 
+for show more data in query: Tools -> Options -> Query Results -> SQL Server -> Multiserver Results
+
+Import / Export Registered Servers
+Right click top level group folder -> Tasks -> Export
+Export to path or click on ellipse to browse. (extension .regsrvr)
+If you have SQL accounts, make sure "Do not include user names and passwords in the export file" is checked.
+
+Connecting to Central Management Server (CMS)
+Lecturer's opinion: CMS is not good
+Ctrl + Alt + G: View Registered Servers
+Go to Database Engine -> Local Server Groups -> Right click Central Management Server -> Register Central Management Server...
+Enter Server name, test, save.
+Enter New Server Group or New Server Registration.
+
+All the CMS is, is a way to register all your servers in once place so all network users can connect to your server, instead of exporting and exporting server groups.
+
+Changing Options
+Changing a really cool registered server option, or customizing appearance.
+Ctrl + Alt + G: View Registered Servers
+Rclick on server -> Properties.
+Connection Properties -> Use custom color.
+In Connection, open a query window. The bottom ribbon will have a different colour depending on which server you're connected to.
+
+More options:
+Tools -> Optimize
+
+Object Explorer Details
+F7 (View -> Object Explorer Details)
+Can view details of server, databases, tables
+Rclick header to customize visible tabs
+Good selection for databases: Name, Recovery Model, Owner, Size, Space Available, Collation (if they have different collation)
+Searching for Objects:
+in Search bar, enter search term, using % for wildcards
+Once you have found what you need, you can synchronize (Alt + Down) to open it in Object Explorer
+________________________________________________________________________________________________
+| Templates (SSMS model)                                                                        |
+| Ctrl + Alt + T (View -> Template Explorer)                                                    |
+| Good way to get T-SQL snippets                                                                |
+| Templates come with default values, but you can easily replace them using Ctrl + Shift + M    |
+| You can create your own templates!                                                            |
+|_______________________________________________________________________________________________|
+
+Scripting Objects
+Rclick, script <objectName> as -> Script method
+To find more info about a stored procedure:
+`sp_helptext 'storedProcedureName'`
+Switch to 'Results to Text' (Ctrl + T) and execute
+This only works for stored procedures and views, but not tables or databases

@@ -1,0 +1,16 @@
+Filegroups: A logical grouping of files
+Three basic areas where you would use Filegroups
+
+Scaleout (Separation of I/O): Reduce impact on drives/servers. SEPARATE YOUR DATA AND LOG FILES! Store each individual file on different drives, arrays, or LUN (Logical Unit Number).
+- Split tables and indexes: use a hierarchy of indexes and tables, with easy access to frequented indexes
+- Split tables from each other
+
+Recoverability:
+- Separate read-only tables (these don't need to be backed up very frequently.)
+- Put like tables together for easier recovery (like with like)
+- Reduce backup/restore time by only backing up the required files.
+
+Cost-effectiveness
+- One size doesn't fit all. Use the right storage method (tool) for the right data (job)
+    - Eg: highly frequented (high-hit frequency) or most important databases eg perhaps temp database (tempdb) may be better used on tier 0 or 1 drives (SDD)
+    - Archived or low frequented (low-hit frequency) database may be better used on tier 3 drives (SATA)

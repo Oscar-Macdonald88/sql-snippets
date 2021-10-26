@@ -1,0 +1,1 @@
+select name from msdb..sysjobs where job_id = cast( as uniqueidentifier) -- enter full job id before 'as'

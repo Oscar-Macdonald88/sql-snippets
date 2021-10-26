@@ -1,0 +1,13 @@
+Monthly report
+Formatting and emailing the report. Use DB mail?
+Format the file with a header
+Date range for this month.
+sys.date - the month
+
+Ibrahim has said he will help us with the change request. See email.
+Implement in a test, sent to Ibrahim, Leo and Lee. Ask if anyone needs to be notified.
+
+Audit on instance level, because it won't work on a cluster level.
+Set the audit file to go to the same place on both.
+
+Report comes second.

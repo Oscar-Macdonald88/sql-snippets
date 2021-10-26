@@ -1,0 +1,24 @@
+SQL Server scheduling
+
+@freq_type
+Value   Description
+---     ---
+1       Once
+4       Daily (every @freq_interval days)
+8       Weekly (@freq_interval is a bitwise operator, 1=Sunday, 64=Saturday)
+16      Monthly 
+32      Monthly relative to @freq_interval (@freq_interval is an integer, 1=Sunday, 7=Saturday, 8=Day, 9=Weekday, 10=Weekend)
+64      Run when SQLServerAgent service starts
+128     Run when the computer is idle
+
+@freq_subday_type
+Value   Description
+---     ---
+1       At the specified time
+2       Seconds
+4       Minutes
+8       Hours
+
+@freq_subday_interval
+The number of @freq_subday_type periods to occur bnetween each execution of a job.
+
