@@ -1,1 +1,0 @@
-EXEC SSLMDW.ssl.up_SendMail @MailType = 'PMF'

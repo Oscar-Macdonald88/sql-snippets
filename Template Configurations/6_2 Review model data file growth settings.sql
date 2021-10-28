@@ -1,6 +1,0 @@
-USE [master]
-GO
-ALTER DATABASE [model] MODIFY FILE ( NAME = N'modeldev', FILEGROWTH = 10%)
-GO
-ALTER DATABASE [model] MODIFY FILE ( NAME = N'modellog', FILEGROWTH = 10%)
-GO
