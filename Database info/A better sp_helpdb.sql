@@ -1,5 +1,5 @@
 -- A Better sp_helpdb
-DECLARE @sp_helpdb TABLE(name VARCHAR(MAX), db_size nvarchar(13), owner VARCHAR(MAX), dbid smallint, created nvarchar(11), status nvarchar(600), compatibility_level tinyint
+DECLARE @sp_helpdb TABLE(name VARCHAR(MAX), db_size nvarchar(13), owner VARCHAR(MAX), dbid smallint, created nvarchar(11), status nvarchar(600), compatibility_level tinyint)
 	INSERT INTO @sp_helpdb EXEC sp_helpdb
  	SELECT 
 		*
