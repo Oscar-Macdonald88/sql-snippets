@@ -5,7 +5,7 @@
 DECLARE @DatabaseName VARCHAR(40)
 DECLARE @DatabaseID Int
 
-SET @DatabaseName = 'WSS_ContentProduction'
+SET @DatabaseName = '' --set database name here
 
 SET @DatabaseID = (SELECT Database_ID FROM sys.databases where name = @DatabaseName )
 
