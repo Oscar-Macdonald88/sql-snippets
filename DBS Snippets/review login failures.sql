@@ -27,9 +27,6 @@
 		t.ApplicationName
 	ORDER BY [Count] DESC
  
-	SELECT SSLDBA.dbo.GetParamInt('LoginFailureThreshold') AS [LoginFailureThreshold]
-	--EXEC SSLDBA.dbo.up_SetParamInt 'LoginFailureThreshold', 50
- 
  
 --Darryn's code: Review Default Trace for Login Failures
 	SELECT  

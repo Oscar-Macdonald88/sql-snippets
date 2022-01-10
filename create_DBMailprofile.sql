@@ -1,5 +1,3 @@
-use SSLDBA
-go
 
 declare
 	@domain_email varchar(255) = '', --INSERT EMAIL DOMAIN HERE eg @water.co.nz
@@ -8,9 +6,8 @@ declare
 	@is_ssl_enabled bit = 0 -- Set this to 1 if the client uses SSL/TLS 
 
 declare
-	@Set_email_address varchar(255) = replace(upper(convert(varchar(255),serverproperty('Servername'))), '\', '_') + @domain_email,
-	@Set_display_name varchar(255) = (select TextValue from SSLDBA..tbl_Param where Param = 'CustCode') + ' ' + upper(convert(varchar(255),serverproperty('Servername'))) + ' (' + (select TextValue from SSLDBA..tbl_Param where Param = 'SLALevel') + ')'
-
+	@Set_email_address varchar(255) = -- set this
+	@Set_display_name varchar(255) = -- set this
 if exists (select 1 from msdb.dbo.sysmail_profile where name = 'ManagedSQL')
 begin
 	exec msdb.dbo.sysmail_delete_profile_sp @profile_name = 'ManagedSQL'
@@ -62,9 +59,6 @@ go
 reconfigure
 go
 
-use SSLDBA
-go
-
 select TextValue from tbl_Param where Param = 'DropFolderDir'
 
 update tbl_Param set
@@ -73,8 +67,6 @@ where
 	Param = 'DropFolderDir'
 
 select TextValue from tbl_Param where Param = 'DropFolderDir'
-
-exec SSLDBA..up_ApplyTemplate
 
 exec msdb..sp_start_job N'SSL_SendDashboardData', @step_name = 'Send alert if PowerShell is disabled or unavailable';
 go

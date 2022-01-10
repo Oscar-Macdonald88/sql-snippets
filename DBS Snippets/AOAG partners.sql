@@ -1,6 +1,6 @@
 --Use to find AOAG partners of the database you are running the query from
 --Can also be used in conjunction with SQLCMD and MaintenanceWin script to place in Maintenance Windows on Partner servers that may not be under direct patching
-SELECT AGC.name AS AOAGName, RCS.replica_server_name AS NodeName, ARS.role_desc AS CurState, SSL.IsMonitored, 'EXEC SSLDBA..up_ApplyAGSupport ''' + AGC.name + ''', ''' + ARS.role_desc + '''''' AS 'ApplyAG' INTO #AOAG FROM sys.availability_groups_cluster AS AGC INNER JOIN sys.dm_hadr_availability_replica_cluster_states AS RCS ON RCS.group_id = AGC.group_id INNER JOIN sys.dm_hadr_availability_replica_states AS ARS ON ARS.replica_id = RCS.replica_id LEFT JOIN [SSLDBA]..[tbl_AlwaysOnGroups] SSL ON SSL.GroupName = AGC.resource_group_id
+SELECT AGC.name AS AOAGName, RCS.replica_server_name AS NodeName, ARS.role_desc AS CurState INTO #AOAG FROM sys.availability_groups_cluster AS AGC INNER JOIN sys.dm_hadr_availability_replica_cluster_states AS RCS ON RCS.group_id = AGC.group_id INNER JOIN sys.dm_hadr_availability_replica_states AS ARS ON ARS.replica_id = RCS.replica_id
 	WHERE RCS.replica_server_name NOT IN ('') --AND RCS.replica_server_name != @@SERVERNAME --If you don't want to see the local instance 
 SELECT * FROM #AOAG ORDER BY AOAGName ASC,CurState DESC
 DECLARE @TempTSQL TABLE(Part1CollectAOAGEventData VARCHAR(3000))

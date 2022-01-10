@@ -1,6 +1,6 @@
 -- Create the table
 
-USE [SSLDBA]
+USE <database_name>
 GO
 
 /****** Object:  Table [dbo].[tbl_TempFragmentation]    Script Date: 19/10/2021 1:00:10 PM ******/
@@ -39,7 +39,7 @@ GO
 --use the correct database
 use dbname
 
-insert into SSLDBA..tbl_TempFragmentation
+insert into <database_name>..tbl_TempFragmentation --change this
 select DB_NAME() as DatabaseName, o.name as [Table Name], i.name as [Index Name], avg_fragmentation_in_percent as [Fragmentation Percentage],
 page_count as [Page Count], GETDATE()
 from sys.dm_db_index_physical_stats(db_ID(),null,NULL,NULL,'LIMITED') s

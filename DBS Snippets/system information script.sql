@@ -14,6 +14,4 @@ SELECT SERVERPROPERTY('ServerName') AS 'SQLServerName', CASE RIGHT(SUBSTRING(@@V
 [Physical CPUs],[Physical cores],[Total Physical cores], [Total Threads], (SELECT int_val FROM @xp_msver WHERE c_name = 'PhysicalMemory') AS 'Server RAM MB',(SELECT value FROM sys.configurations WHERE name = 'max server memory (MB)') AS 'SQL Server RAM Allocation MB',((SELECT int_val FROM @xp_msver WHERE c_name = 'PhysicalMemory')-(SELECT (CONVERT(INT,value)) FROM sys.configurations WHERE name = 'max server memory (MB)')) AS 'Windows RAM Allocation MB', 
 CASE LEFT(CONVERT(VARCHAR, SERVERPROPERTY('ProductVersion')),4) WHEN '8.00' THEN 'SQL Server 2000'WHEN '9.00' THEN 'SQL Server 2005'WHEN '10.0' THEN 'SQL Server 2008'WHEN '10.5' THEN 'SQL Server 2008 R2'WHEN '11.0' THEN 'SQL Server 2012'WHEN '12.0' THEN 'SQL Server 2014'WHEN '13.0' THEN 'SQL Server 2016'WHEN '14.0' THEN 'SQL Server 2017'ELSE LEFT(CONVERT(VARCHAR, SERVERPROPERTY('ProductVersion')),4)END AS 'SQLVersionBuild', SERVERPROPERTY('Edition') AS 'SQLEdition', getdate() AS 'LastSeen' FROM [ProcessorInfo]
  
-SELECT Param, TextValue FROM SSLDBA.dbo.tbl_Param WHERE Param IN ('SQLData', 'SQLReportsDir', 'SQLLogDumps', 'SQLLogs', 'SQLDataDumps', 'DropFolderDir', 'TemplateOverrideRequired', 'SLALevel', '24x7')
- 
 EXEC xp_fixeddrives

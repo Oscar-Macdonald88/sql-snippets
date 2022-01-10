@@ -1,8 +1,6 @@
 -- Stage 9 - Queries
 
 -- a) All queries are written in T-SQL
--- b)
-USE SSLDBA;
 SELECT  Msg 
 FROM    tbl_EmailMessage;
 GO

@@ -1,7 +1,6 @@
 SELECT d.name AS [Database Name],
 [Database Type] = CASE 
 WHEN d.name IN ('master', 'model', 'msdb', 'tempdb') THEN 'System Database'
-WHEN d.name IN ('SSLDBA', 'SSLMDW') THEN 'DBS Monitoring Database'
 ELSE 'User Database'
 END,
 SUSER_SNAME(d.owner_sid) AS [Owner], 
