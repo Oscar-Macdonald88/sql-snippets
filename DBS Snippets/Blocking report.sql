@@ -1,5 +1,19 @@
 -- Blocking tool
-	DECLARE @sp_who2 TABLE(SPID INT, Status VARCHAR(MAX), LOGIN VARCHAR(MAX), HostName VARCHAR(MAX), BlkBy VARCHAR(MAX), DBName VARCHAR(MAX), Command VARCHAR(MAX), CPUTime INT, DiskIO INT, LastBatch VARCHAR(MAX), ProgramName VARCHAR(MAX), SPID_1 INT, REQUESTID INT)
+	DECLARE @sp_who2 
+	TABLE(
+		SPID INT
+		, Status int
+		, LOGIN VARCHAR(MAX)
+		, HostName VARCHAR(MAX)
+		, BlkBy VARCHAR(MAX)
+		, DBName VARCHAR(MAX)
+		, Command VARCHAR(MAX)
+		, CPUTime INT
+		, DiskIO VARCHAR(MAX)
+		, LastBatch VARCHAR(MAX)
+		, ProgramName VARCHAR(MAX)
+		, SPID_1 INT,
+		 REQUESTID INT)
 	INSERT INTO @sp_who2 EXEC sp_who2
  
 	update @sp_who2 set ProgramName = case when (ProgramName like '%Job 0x%') then 'SQLAgent - Agent Job: "' + (select top 1 name FROM msdb.dbo.sysjobs where ProgramName like '%'+master.dbo.fn_varbintohexstr(job_id)+'%') + '"' else ProgramName end;

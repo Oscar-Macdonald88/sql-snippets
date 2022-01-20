@@ -1,12 +1,12 @@
 SELECT
     --virtual file latency
-    [ReadLatency] =
+    [ReadLatency (ms)] =
         CASE WHEN [num_of_reads] = 0
             THEN 0 ELSE ([io_stall_read_ms] / [num_of_reads]) END,
-    [WriteLatency] =
+    [WriteLatency (ms)] =
         CASE WHEN [num_of_writes] = 0
             THEN 0 ELSE ([io_stall_write_ms] / [num_of_writes]) END,
-    [Latency] =
+    [Latency (ms)] =
         CASE WHEN ([num_of_reads] = 0 AND [num_of_writes] = 0)
             THEN 0 ELSE ([io_stall] / ([num_of_reads] + [num_of_writes])) END,
     --avg bytes per IOP
