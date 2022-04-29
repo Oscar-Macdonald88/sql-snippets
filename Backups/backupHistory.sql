@@ -16,8 +16,8 @@ END AS BackupType,
     s.recovery_model
 FROM msdb.dbo.backupset s
     INNER JOIN msdb.dbo.backupmediafamily m ON s.media_set_id = m.media_set_id
-WHERE 
---s.database_name = '<DB Name>' And 
+WHERE
+--s.database_name = '<DB Name>' And
 Type = 'D' And backup_finish_date >= GETDATE() -1
 ORDER BY backup_start_date DESC, backup_finish_date
 GO

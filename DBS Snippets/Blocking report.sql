@@ -2,7 +2,7 @@
 	DECLARE @sp_who2 
 	TABLE(
 		SPID INT
-		, Status int
+		, Status VARCHAR(MAX) --INT
 		, LOGIN VARCHAR(MAX)
 		, HostName VARCHAR(MAX)
 		, BlkBy VARCHAR(MAX)
