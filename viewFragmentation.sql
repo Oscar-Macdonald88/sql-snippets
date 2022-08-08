@@ -1,4 +1,4 @@
-use dbname
+-- use dbname
 select o.name, i.name, index_type_desc,
 index_depth, index_level, avg_fragmentation_in_percent,
 fragment_count, avg_fragment_size_in_pages, page_count,record_count
