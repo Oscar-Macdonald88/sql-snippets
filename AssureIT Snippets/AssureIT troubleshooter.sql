@@ -8,9 +8,9 @@ SET NOCOUNT ON;
 DECLARE @review_start_datetime datetime;
 DECLARE @review_end_datetime datetime;
 DECLARE @review_database nvarchar(128);
-SET @review_start_datetime = '2016-08-25 00:00:00';
-SET @review_end_datetime = '2016-08-25 09:00:00';
-SET @review_database = 'LOCATION_ACTIVITY_DB';
+SET @review_start_datetime = '2022-08-19 13:00:00';
+SET @review_end_datetime = '2022-08-19 16:00:00';
+SET @review_database = 'SDS';
 DECLARE @now datetime;
 SET @now = GETDATE();
 -- CHECK input is correct
@@ -61,6 +61,7 @@ WHERE 1 = 1
     AND COALESCE(b.InstanceName, '-') LIKE COALESCE(b.InstanceName, '-')
     AND CONVERT(DATETIME, CONVERT(CHAR(23), a.CounterDateTime), 121) >= @review_start_datetime
     AND CONVERT(DATETIME, CONVERT(CHAR(23), a.CounterDateTime), 121) <= @review_end_datetime
+	and a.CounterValue <> 0 -- about half of the entries return as 0, filter these out
 ORDER BY Collected;
 SELECT 'Processor Queue Length Stats:' AS [Info], 'Queue length < 4 per CPU' AS [Check];
 SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
@@ -75,6 +76,7 @@ WHERE 1 = 1
     AND COALESCE(b.InstanceName, '-') LIKE COALESCE(b.InstanceName, '-')
     AND CONVERT(DATETIME, CONVERT(CHAR(23), a.CounterDateTime), 121) >= @review_start_datetime
     AND CONVERT(DATETIME, CONVERT(CHAR(23), a.CounterDateTime), 121) <= @review_end_datetime
+    and a.CounterValue <> 0 -- about half of the entries return as 0, filter these out
 ORDER BY Collected;
 SELECT 'SQL Process Stats:' AS [Info], 'SQL Process Utilisation > 50% if Processor % > 80%' AS [Check];
 SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected

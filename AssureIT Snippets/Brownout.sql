@@ -1,6 +1,8 @@
 declare @start datetime = getdate()
-declare @end datetime = datediff(hour, 1, @start)
-declare @comment varchar(255) = 'OM: SCTASK0097894 refreshing WFCTRN'
+declare @end datetime = dateadd(hour, 3, @start)
+declare @comment varchar(255) = 'OM:'
 exec EIT_DBA..BrownOutSet @start, @end, @comment
+
+select * from EIT_DBA.alert.BrownOut where comments = @comment
 
 -- update EIT_DBA.alert.BrownOut set EndsAt = getdate() where comment = @comment

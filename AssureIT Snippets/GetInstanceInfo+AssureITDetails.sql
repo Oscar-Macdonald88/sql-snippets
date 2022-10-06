@@ -1,4 +1,5 @@
-SELECT SERVERPROPERTY('servername'),
+SELECT SERVERPROPERTY('servername') as Server_Name,
+eit.value as Environment,
   CASE 
      WHEN CONVERT(VARCHAR(128), SERVERPROPERTY ('productversion')) like '8%' THEN 'SQL2000'
      WHEN CONVERT(VARCHAR(128), SERVERPROPERTY ('productversion')) like '9%' THEN 'SQL2005'
@@ -11,7 +12,9 @@ SELECT SERVERPROPERTY('servername'),
      WHEN CONVERT(VARCHAR(128), SERVERPROPERTY ('productversion')) like '15%' THEN 'SQL2019' 
      WHEN CONVERT(VARCHAR(128), SERVERPROPERTY ('productversion')) like '16%' THEN 'SQL2022' 
      ELSE 'unknown'
-  END AS MajorVersion,
-  SERVERPROPERTY('ProductLevel') AS ProductLevel,
-  SERVERPROPERTY('Edition') AS Edition,
-  SERVERPROPERTY('ProductVersion') AS ProductVersion
+  END AS Version,
+  SERVERPROPERTY('Edition') AS License,
+  SERVERPROPERTY('ProductLevel') AS SP,
+  SERVERPROPERTY('ProductVersion') AS Build
+  from EIT_DBA..EIT_monitoring_config eit
+  where eit.configuration = 'env'
