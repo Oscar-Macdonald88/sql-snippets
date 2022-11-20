@@ -48,7 +48,7 @@ EXEC xp_msver;
 -- ******************************
 -- Get Processor Stats:
 SELECT 'Processor Stats:' AS [Info], 'Processors Utilisation < 80%' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , COALESCE(b.InstanceName, '-') AS Processor
 , CAST(a.CounterValue AS DECIMAL(10, 5)) AS PercentProcessorTime
 FROM dbo.CounterData a
@@ -64,7 +64,7 @@ WHERE 1 = 1
 	and a.CounterValue <> 0 -- about half of the entries return as 0, filter these out
 ORDER BY Collected;
 SELECT 'Processor Queue Length Stats:' AS [Info], 'Queue length < 4 per CPU' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , a.CounterValue AS PercentProcessorQueueLength
 FROM dbo.CounterData a
 , dbo.CounterDetails b
@@ -79,7 +79,7 @@ WHERE 1 = 1
     and a.CounterValue <> 0 -- about half of the entries return as 0, filter these out
 ORDER BY Collected;
 SELECT 'SQL Process Stats:' AS [Info], 'SQL Process Utilisation > 50% if Processor % > 80%' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , COALESCE(b.InstanceName, '-') AS Process
 , CAST(a.CounterValue AS DECIMAL(10, 5)) AS PercentProcessorTime
 FROM dbo.CounterData a
@@ -95,7 +95,7 @@ WHERE 1 = 1
     AND CONVERT(DATETIME, CONVERT(CHAR(23), a.CounterDateTime), 121) <= @review_end_datetime
 ORDER BY Collected;
 SELECT 'Other Process Stats:' AS [Info], 'Processes with > 50% CPU Utilisation' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , COALESCE(b.InstanceName, '-') AS Process
 , CAST(a.CounterValue AS DECIMAL(10, 5)) AS PercentProcessorTime
 FROM dbo.CounterData a
@@ -113,7 +113,7 @@ ORDER BY Collected;
 
 -- Get Memory Stats:
 SELECT 'Memory Available Stats:' AS [Info], 'Available MB should be > 5% of physical RAM' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , CAST(a.CounterValue AS FLOAT)/1024/1024 AS MBytesAvailable
 FROM dbo.CounterData a
 , dbo.CounterDetails b
@@ -128,7 +128,7 @@ WHERE 1 = 1
     AND CONVERT(DATETIME, CONVERT(CHAR(23), a.CounterDateTime), 121) <= @review_end_datetime
 ORDER BY Collected;
 SELECT 'Server Page Faults/sec Stats:' AS [Info], 'Server Page Faults should be < 300' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , CAST(a.CounterValue AS FLOAT) AS PageFaultsPerSec
 FROM dbo.CounterData a
 , dbo.CounterDetails b
@@ -143,7 +143,7 @@ WHERE 1 = 1
     AND CONVERT(DATETIME, CONVERT(CHAR(23), a.CounterDateTime), 121) <= @review_end_datetime
 ORDER BY Collected;
 SELECT 'Server Pages/sec Stats:' AS [Info], 'Server Page/Sec should be < 1000' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , CAST(a.CounterValue AS FLOAT) AS PagesPerSec
 FROM dbo.CounterData a
 , dbo.CounterDetails b
@@ -158,7 +158,7 @@ WHERE 1 = 1
     AND CONVERT(DATETIME, CONVERT(CHAR(23), a.CounterDateTime), 121) <= @review_end_datetime
 ORDER BY Collected;
 SELECT 'SQL Process Page Faults/sec Stats:' AS [Info], 'Ideally SQL Process Page Faults/sec < 50' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , CAST(a.CounterValue AS FLOAT) AS PageFaultsPerSec
 FROM dbo.CounterData a
 , dbo.CounterDetails b
@@ -174,7 +174,7 @@ WHERE 1 = 1
     AND CONVERT(DATETIME, CONVERT(CHAR(23), a.CounterDateTime), 121) <= @review_end_datetime
 ORDER BY Collected;
 SELECT 'SQL Process Page Faults/sec Stats:' AS [Info], 'Ideally SQL Process Pages/sec < 50' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , CAST(a.CounterValue AS FLOAT) AS PageFaultsPerSec
 FROM dbo.CounterData a
 , dbo.CounterDetails b
@@ -191,7 +191,7 @@ WHERE 1 = 1
 ORDER BY Collected;
 -- Get Network Stats:
 SELECT 'Network Interface Stats:' AS [Info], 'Check if Network is saturated.' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , COALESCE(b.InstanceName, '-') AS NetworkInterface
 , CAST(a.CounterValue AS FLOAT) AS BytesTotalPerSec
 FROM dbo.CounterData a
@@ -209,7 +209,7 @@ ORDER BY Collected;
 
 -- Get User connections:
 SELECT 'User Connection Stats:' AS [Info], '-' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , CAST(a.CounterValue AS DECIMAL(10, 0)) AS UserConnections
 FROM dbo.CounterData a
 , dbo.CounterDetails b
@@ -226,7 +226,7 @@ SELECT value
 ORDER BY Collected;
 -- Get PLE stats:
 SELECT 'Page Life Expectancy Stats:' AS [Info], 'Ideally as high as possible > 1000.' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , CAST(a.CounterValue AS DECIMAL(10, 0)) AS PageLifeExpectancySeconds
 FROM dbo.CounterData a
 , dbo.CounterDetails b
@@ -243,7 +243,7 @@ SELECT value
 ORDER BY Collected;
 -- Memory Grants Pending:'
 SELECT 'Memory Grants Outstanding Stats:' AS [Info], 'Ideally = 0, otherwise instance may need more memory.' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , CAST(a.CounterValue AS DECIMAL(10, 0)) AS MemoryGrantsPending
 FROM dbo.CounterData a
 , dbo.CounterDetails b
@@ -261,7 +261,7 @@ SELECT value
 ORDER BY Collected;
 -- Get Batch Requests:
 SELECT 'Batch Request Stats:' AS [Info], '-' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , CAST(a.CounterValue AS DECIMAL(10, 0)) AS BatchRequestsPerSec
 FROM dbo.CounterData a
 , dbo.CounterDetails b
@@ -279,7 +279,7 @@ SELECT value
 ORDER BY Collected;
 -- SQL Compilations/sec:
 SELECT 'SQL Compilations/sec Stats:' AS [Info], 'If SQL Compilations/sec > 10% of Batch Request, there may not be enough memory to cache plans.' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , CAST(a.CounterValue AS DECIMAL(10, 0)) AS SQLCompilationsPerSec
 FROM dbo.CounterData a
 , dbo.CounterDetails b
@@ -297,7 +297,7 @@ SELECT value
 ORDER BY Collected;
 -- SQL Recompliations/sec:
 SELECT 'SQL Re-Compilations/sec Stats:' AS [Info], 'Compare with SQL Compilations/sec - if too many then not enough plan reuse.' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , CAST(a.CounterValue AS DECIMAL(10, 0)) AS SQLReCompilationsPerSec
 FROM dbo.CounterData a
 , dbo.CounterDetails b
@@ -315,7 +315,7 @@ SELECT value
 ORDER BY Collected;
 -- Cache Hit Ratio:
 SELECT 'Cache Hit Ratio Stats:' AS [Info], 'Ideally as high as possible.' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , COALESCE(b.InstanceName, '-') AS CounterName
 , CAST(a.CounterValue AS DECIMAL(10, 5)) AS PlanCacheHitRatio
 FROM dbo.CounterData a
@@ -335,7 +335,7 @@ SELECT value
 ORDER BY Collected;
 -- AvgDiskSecPerRead
 SELECT 'Avg. Disk sec/Read Stats:' AS [Info], 'Ideally < 0.25.' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , COALESCE(b.InstanceName, '-') AS DiskName
 , CAST(a.CounterValue AS DECIMAL(10, 5)) AS AvgDiskSecPerRead
 FROM dbo.CounterData a
@@ -353,7 +353,7 @@ WHERE 1 = 1
 ORDER BY Collected;
 -- AvgDiskSecPerWrite
 SELECT 'Avg. Disk sec/Write Stats:' AS [Info], 'Ideally < 0.25' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , COALESCE(b.InstanceName, '-') AS DiskName
 , CAST(a.CounterValue AS DECIMAL(10, 5)) AS AvgDiskSecPerWrite
 FROM dbo.CounterData a
@@ -371,7 +371,7 @@ WHERE 1 = 1
 ORDER BY Collected;
 --Active Transactions
 SELECT 'Active Transactions:' AS [Info], 'Active Transaction count on Database.' AS [Check];
-SELECT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , COALESCE(b.InstanceName, '-') AS DatabaseName
 , CAST(a.CounterValue AS DECIMAL(10, 5)) AS ActiveTransactions
 FROM dbo.CounterData a
@@ -396,7 +396,7 @@ ORDER BY Collected;
 -- ******************************
 -- Get Data File Size Stats:
 SELECT 'Data File Size:' AS [Info], 'Ideally stable.' AS [Check];
-SELECT DISTINCT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT DISTINCT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , COALESCE(b.InstanceName, '-') AS DatabaseName
 , CASE
 WHEN CAST(MAX(a.CounterValue) / 1024 AS BIGINT) < 1
@@ -418,11 +418,11 @@ SELECT value
     AND CONVERT(DATETIME, CONVERT(CHAR(23), a.CounterDateTime), 121) >= @review_start_datetime
     AND CONVERT(DATETIME, CONVERT(CHAR(23), a.CounterDateTime), 121) <= @review_end_datetime
 GROUP BY COALESCE(b.InstanceName, '-')
-,CAST(a.CounterDateTime AS VARCHAR(19))
+,CAST(a.CounterDateTime AS VARCHAR(MAX))
 ORDER BY Collected;
 -- Get Log File Size Stats:
 SELECT 'Log File Size:' AS [Info], 'Ideally stable.' AS [Check];
-SELECT DISTINCT CAST(a.CounterDateTime AS VARCHAR(19)) AS Collected
+SELECT DISTINCT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
 , COALESCE(b.InstanceName, '-') AS DatabaseName
 , CASE
 WHEN CAST(MAX(a.CounterValue) / 1024 AS BIGINT) < 1
@@ -444,7 +444,7 @@ SELECT value
     AND CONVERT(DATETIME, CONVERT(CHAR(23), a.CounterDateTime), 121) >= @review_start_datetime
     AND CONVERT(DATETIME, CONVERT(CHAR(23), a.CounterDateTime), 121) <= @review_end_datetime
 GROUP BY COALESCE(b.InstanceName, '-')
-,CAST(a.CounterDateTime AS VARCHAR(19))
+,CAST(a.CounterDateTime AS VARCHAR(MAX))
 ORDER BY Collected;
 -- Get Auto Growths / Shrinks:
 SELECT 'Auto Grow / Shrink Events:' AS [Info], 'Ideally stable.' AS [Check];
