@@ -8,9 +8,9 @@ SET NOCOUNT ON;
 DECLARE @review_start_datetime datetime;
 DECLARE @review_end_datetime datetime;
 DECLARE @review_database nvarchar(128);
-SET @review_start_datetime = '2022-08-19 13:00:00';
-SET @review_end_datetime = '2022-08-19 16:00:00';
-SET @review_database = 'SDS';
+SET @review_start_datetime = DATEADD(hour, -3, getdate());
+SET @review_end_datetime = DATEADD(minute, -15, getdate());
+SET @review_database = 'EIT_DBA'; -- set this to review a specific database
 DECLARE @now datetime;
 SET @now = GETDATE();
 -- CHECK input is correct
@@ -49,7 +49,6 @@ EXEC xp_msver;
 -- Get Processor Stats:
 SELECT 'Processor Stats:' AS [Info], 'Processors Utilisation < 80%' AS [Check];
 SELECT CAST(a.CounterDateTime AS VARCHAR(MAX)) AS Collected
-, COALESCE(b.InstanceName, '-') AS Processor
 , CAST(a.CounterValue AS DECIMAL(10, 5)) AS PercentProcessorTime
 FROM dbo.CounterData a
 , dbo.CounterDetails b

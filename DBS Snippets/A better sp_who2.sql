@@ -6,13 +6,13 @@ select p.spid,
 	p.loginame,
 	p.hostname,
 	case
-		when (p.program_name like '%Job 0x%') then 'SQLAgent - Agent Job: "' + (
+		when (p.program_name like 'SQLAgent%') then 'SQLAgent - Agent Job: "' + (
 			select top 1 name
 			FROM msdb.dbo.sysjobs
 			where p.program_name like '%' + master.dbo.fn_varbintohexstr(job_id) + '%'
 		) + '"'
 		else p.program_name
-	end pogram_name,
+	end program_name,
 	p.cmd,
 	t.text,
 	p.status,

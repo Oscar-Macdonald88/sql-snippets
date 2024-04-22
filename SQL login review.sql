@@ -1,0 +1,2 @@
+SELECT serverproperty('servername'), name as LoginName,is_disabled, is_policy_checked, is_expiration_checked, PWDCOMPARE(name,password_hash) as [Password same as login name], PWDCOMPARE('',password_hash) as [Empty Password]
+FROM sys.sql_logins 

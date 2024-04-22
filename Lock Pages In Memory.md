@@ -10,14 +10,22 @@ INNER JOIN sys.dm_os_nodes N
 ON MN.memory_node_id = N.memory_node_id
 WHERE N.node_state_desc <> 'ONLINE DAC'
 
+SELECT sql_memory_model_desc FROM sys.dm_os_sys_info;
+```
+
+alternative
+
+```sql
 SELECT
-MN.locked_page_allocations_kb
+MN.locked_page_allocations_kb, sql_memory_model_desc, service_account
 FROM sys.dm_os_memory_nodes MN
 INNER JOIN sys.dm_os_nodes N 
 ON MN.memory_node_id = N.memory_node_id
-WHERE N.node_state_desc <> 'ONLINE DAC'
-
-SELECT sql_memory_model_desc FROM sys.dm_os_sys_info;
+inner join sys.dm_os_sys_info on 1=1
+inner join sys.dm_server_services on 1=1
+WHERE sql_memory_model_desc = 'CONVENTIONAL'
+and N.node_state_desc <> 'ONLINE DAC'
+and servicename like 'SQL Server (%';
 ```
 
 If lock pages in memory is enabled, the value will be greater than 0.

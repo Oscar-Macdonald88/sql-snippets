@@ -8,14 +8,7 @@ SELECT sjh.instance_id, -- This is included just for ordering purposes
    sjh.sql_severity,
    sjh.message,
    sjh.run_status,
-   -- adjusted values to convert to date
-   convert(date, left(sjh.run_date, 4) + '-' +
-               substring(convert(varchar(8), sjh.run_date), 5, 2) + '-' +
-               right(sjh.run_date, 2)) run_date,
-   -- adjusted values to convert to time
-   convert(time, left(right('00000' + convert(varchar(6), sjh.run_time), 6), 2) + ':' +
-               substring(right('00000' + convert(varchar(6), sjh.run_time), 6), 3, 2) + ':' +
-               right(right('00000' + convert(varchar(6), sjh.run_time), 6), 2)) run_time,
+   msdb.dbo.agent_datetime(sjh.run_date, sjh.run_time) RunDateAndTime,
    sjh.run_duration,
    operator_emailed = so1.name,
    operator_netsent = so2.name,

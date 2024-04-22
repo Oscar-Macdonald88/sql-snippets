@@ -30,7 +30,7 @@ DECLARE @database sysname, @CMD NVARCHAR(4000)
 	END
 	SELECT databaseName, logicalName, physicalName, s.log_reuse_wait_desc, '' AS [---], FileSizeMB, UsedSpaceMB, UnusedSpaceMB AS [*UnusedSpaceMB*], CONVERT(VARCHAR(20),CONVERT(DECIMAL(38,2),((UnusedSpaceMB+1)/(FileSizeMB+1))*100))+'% free' AS [Ratio], '' AS [---], Shrink_TSQL
 	FROM @shrinkable
-	join sys.databases s on s.name = databasename
+	join sys.databases s on s.name = databasename -- COLLATE Latin1_General_CI_AS -- if needed
 	WHERE physicalName LIKE '%:%.[lmn]df' --Remove the "l", "m" or "n" for different file types. Replace the first % with the drive letter of concern.
 		--AND UnusedSpaceMB > 0	--Set the unused space threshold
 		AND databaseName LIKE '%%'	--Set the Database Name here

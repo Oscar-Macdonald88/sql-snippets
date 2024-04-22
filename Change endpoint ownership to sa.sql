@@ -9,7 +9,9 @@ FROM sys.server_permissions SPS , sys.endpoints EPS WHERE SPS.major_id = EPS.end
 ORDER BY Permission,[GRANTED BY], [GRANTED TO]; 
 
 --- now make the change.
-BEGIN TRAN USE master; 
+BEGIN TRAN 
+
+USE master; 
  
 ALTER AUTHORIZATION ON ENDPOINT::Hadr_endpoint TO sa; 
  

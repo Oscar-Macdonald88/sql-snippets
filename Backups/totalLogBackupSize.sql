@@ -6,8 +6,7 @@ FROM msdb.dbo.backupset s
 WHERE
 --s.database_name = '<DB Name>' And
 Type = 'L' 
-And backup_finish_date >= '2022-07-01 17:00'
-And backup_finish_date <= '2022-07-04 08:00'
+And backup_finish_date >= getdate() - 24
 group by database_name
 ORDER BY database_name
 GO

@@ -1,7 +1,8 @@
 select role_desc
 from sys.dm_hadr_availability_replica_states s
     join sys.availability_groups g on g.group_id = s.group_id
-where g.name = '' --put ag name here
+where is_local = 1
+and g.name = '' --put ag name here
 
 --alternative
 
