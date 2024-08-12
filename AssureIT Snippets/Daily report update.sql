@@ -3,7 +3,8 @@ USE [EIT_DBA]
   -- Non Critcal Reports come in on a Monday. Goal: reduce non-critical reports numbers weekly
   UPDATE [EIT_DBA].[report].[ReportConfiguration]
   SET ActiveDays = 2
-  WHERE IsCritical = 0;
+  WHERE IsCritical = 0
+  AND ReportName NOT IN ('Errorlog findings','SQL Agent Errorlog findings');
   -- Update Error logs to non-crtical - justification: we get errors throughout the day, this will be a summary of errors instead.
   -- error logs are still going to come through daily so please give feedback if these can reduce too.
   UPDATE [EIT_DBA].[report].[ReportConfiguration]

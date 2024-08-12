@@ -6,7 +6,8 @@ join sys.objects o on s.object_id = o.object_id
 join sys.indexes i on s.index_id = i.index_id
             and s.object_id = i.object_id
 			and s.database_id = d.database_id
-            where page_count > 1000
+			where d.state = 0
+            and page_count > 1000
 			--and fragment_count > 50
             and  index_type_desc != 'HEAP'
             order by   avg_fragmentation_in_percent desc

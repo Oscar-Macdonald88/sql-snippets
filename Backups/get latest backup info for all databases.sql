@@ -14,7 +14,7 @@ WITH MostRecentBackups
    ),
    BackupsWithSize
    AS(
-      SELECT mrb.*, (SELECT TOP 1 CONVERT(DECIMAL(10,4), b.backup_size/1024/1024/1024) AS backup_size FROM msdb.dbo.backupset b WHERE [Database] = b.database_name AND LastBackupTime = b.backup_finish_date) AS [Backup Size]
+      SELECT mrb.*, (SELECT TOP 1 CONVERT(DECIMAL(10,4), b.compressed_backup_size/1024/1024/1024) AS compressed_backup_size FROM msdb.dbo.backupset b WHERE [Database] = b.database_name AND LastBackupTime = b.backup_finish_date) AS [Backup Size]
       FROM MostRecentBackups mrb
    )
    
@@ -25,7 +25,7 @@ WITH MostRecentBackups
       d.recovery_model_desc AS [Recovery Model],
       bf.LastBackupTime AS [Last Full],
       DATEDIFF(DAY,bf.LastBackupTime,GETDATE()) AS [Time Since Last Full (in Days)],
-      bf.[Backup Size] AS [Full Backup Size GB],
+      bf.[Backup Size] AS [Full Compressed Backup Size GB],
       bd.LastBackupTime AS [Last Differential],
       DATEDIFF(DAY,bd.LastBackupTime,GETDATE()) AS [Time Since Last Differential (in Days)],
       bd.[Backup Size] AS [Differential Backup Size],

@@ -10,7 +10,7 @@
 	SELECT
 		DB_NAME(db.database_id) AS [DatabaseName],
 		convert(bigint, mfrows.RowSize) * 8 / 1024 AS [RowSizeMB],
-		tdb.WeeklyDBCC,
+		--tdb.WeeklyDBCC,
 		v.LastDBCCCheckDB,
 		CONVERT(VARCHAR(20), DATEDIFF(DAY, v.LastDBCCCheckDB, GETDATE())) + case when (v.LastDBCCCheckDB < getdate()-7) then ' *' else '' end AS [Age]
 	FROM sys.databases db
