@@ -1,4 +1,4 @@
--- Check status of Always On autokmatic seeding restore
+-- Check status of Always On automatic seeding restore
 
 -- Primary
 

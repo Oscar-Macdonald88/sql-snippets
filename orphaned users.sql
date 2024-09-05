@@ -1,2 +1,0 @@
-DECLARE @command varchar(1000) ='USE ? if exists (select top 1 dp.name FROM sys.database_principals AS dp LEFT JOIN sys.server_principals AS sp ON dp.sid = sp.sid WHERE sp.sid IS NULL AND dp.authentication_type_desc = ''INSTANCE'') begin SELECT SERVERPROPERTY(''servername''), ''?'', dp.name AS user_name FROM sys.database_principals AS dp LEFT JOIN sys.server_principals AS sp ON dp.sid = sp.sid WHERE sp.sid IS NULL AND dp.authentication_type_desc = ''INSTANCE'' end;'
-EXEC sp_MSforeachdb @command
