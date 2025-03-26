@@ -5,6 +5,7 @@ SELECT TOP 100 mail.mailitem_id,
     blind_copy_recipients,
     subject,
     body,
+	attachments.filename,
     --body_format, importance, sensitivity, file_attachments, attachment_encoding, query, execute_query_database, attach_query_result_as_file, query_result_header, exclude_query_output, append_query_error
     send_request_date,
     --send_request_user,
@@ -15,4 +16,5 @@ SELECT TOP 100 mail.mailitem_id,
 FROM msdb..sysmail_allitems mail
 LEFT JOIN msdb..sysmail_profile PROFILE ON mail.profile_id = PROFILE.profile_id
 LEFT JOIN msdb..sysmail_account account ON mail.sent_account_id = account.account_id
+LEFT JOIN msdb..sysmail_attachments attachments on attachments.mailitem_id = mail.mailitem_id
 ORDER BY send_request_date DESC

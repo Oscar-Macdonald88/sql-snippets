@@ -12,9 +12,9 @@ select p.spid,
 			where p.program_name like '%' + master.dbo.fn_varbintohexstr(job_id) + '%'
 		) + '"'
 		else p.program_name
-	end program_name,
+	end as program_name,
 	p.cmd,
-	t.text,
+	LEFT(ISNULL(t.text, 'unknown'), 4000) as text,
 	p.status,
 	p.blocked,
 	p.waittime,

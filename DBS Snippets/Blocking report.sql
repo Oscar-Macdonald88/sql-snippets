@@ -41,7 +41,7 @@ SELECT sp.SPID,
 	sp.LastBatch,
 	der.TEXT,
 	'' AS [---],
-	'KILL ' + CONVERT(VARCHAR(32), sp.SPID) AS [T-SQL]
+	'KILL ' + CONVERT(VARCHAR(32), sp.SPID) + ' WITH STATUSONLY' AS [T-SQL]
 FROM @sp_who2 sp
 LEFT JOIN (
 	SELECT der.session_id,

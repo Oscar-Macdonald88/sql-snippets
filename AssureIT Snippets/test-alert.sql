@@ -5,7 +5,7 @@ DECLARE @Customer NVARCHAR(255);
 DECLARE @Server NVARCHAR(255);
 DECLARE @Subject NVARCHAR(255);
 DECLARE @Body NVARCHAR(255);
-SET @Customer = (SELECT TOP 1 value FROM EIT_monitoring_config WHERE configuration = 'customer_code');
+SET @Customer = EIT_DBA.dbo.ConfigValueGet('customer_code');
 SET @Server = CAST((SELECT SERVERPROPERTY('SERVERNAME')) AS NVARCHAR(255));
 SET @Subject = @Customer + ' - Test(Alert) - ' + @Server;
 SET @Body = 'Test from ' + @Server
