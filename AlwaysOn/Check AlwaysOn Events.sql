@@ -12,7 +12,8 @@ SELECT @FileName = target_data.value('(EventFileTarget/File/@name)[1]', 'nvarcha
 
 WITH    base
           AS (
-               SELECT XEData.value('(event/@timestamp)[1]', 'datetime2(3)') AS event_timestamp
+               SELECT XEData.value('(event/data/value)[4]', 'VARCHAR(255)') AS availability_group_name
+                   ,XEData.value('(event/@timestamp)[1]', 'datetime2(3)') AS event_timestamp
                    ,XEData.value('(event/data/text)[1]', 'VARCHAR(255)') AS previous_state
                    ,XEData.value('(event/data/text)[2]', 'VARCHAR(255)') AS current_state
                    ,ar.replica_server_name
@@ -25,7 +26,8 @@ WITH    base
                 JOIN sys.availability_replicas ar
                     ON ar.replica_id = XEData.value('(event/data/value)[5]', 'VARCHAR(255)')
              )
-    SELECT DATEADD(HOUR, DATEDIFF(HOUR, GETUTCDATE(), GETDATE()), event_timestamp) AS event_timestamp
+    SELECT availability_group_name
+		   ,DATEADD(HOUR, DATEDIFF(HOUR, GETUTCDATE(), GETDATE()), event_timestamp) AS event_timestamp
            ,previous_state
            ,current_state
            ,replica_server_name
