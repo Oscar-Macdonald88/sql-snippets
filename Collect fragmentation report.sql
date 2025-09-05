@@ -20,9 +20,6 @@ CREATE TABLE [dbo].[tbl_TempFragmentation](
 ) ON [PRIMARY]
 GO
 
-USE [master]
-GO
-
 SET ANSI_PADDING ON
 GO
 
@@ -31,7 +28,7 @@ CREATE NONCLUSTERED INDEX [IX_DBName_TableName] ON [dbo].[tbl_TempFragmentation]
 (
 	[DatabaseName] ASC
 )
-INCLUDE([TableName]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+INCLUDE([TableName]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 
 
@@ -39,7 +36,7 @@ GO
 --use the correct database
 use dbname
 
-insert into <database_name>..tbl_TempFragmentation --change this
+insert into dbo.tbl_TempFragmentation
 select DB_NAME() as DatabaseName, o.name as [Table Name], i.name as [Index Name], avg_fragmentation_in_percent as [Fragmentation Percentage],
 page_count as [Page Count], GETDATE()
 from sys.dm_db_index_physical_stats(db_ID(),null,NULL,NULL,'LIMITED') s
@@ -73,7 +70,7 @@ begin
             @retry_attempts=3, 
             @retry_interval=1, 
             @os_run_priority=0, @subsystem=N'TSQL', 
-            @command=N'insert into master..tbl_TempFragmentation
+            @command=N'insert into <database_name>..tbl_TempFragmentation -- update this
     select DB_NAME() as DatabaseName, o.name as [Table Name], i.name as [Index Name], avg_fragmentation_in_percent as [Fragmentation Percentage],
     page_count as [Page Count], GETDATE()
     from sys.dm_db_index_physical_stats(db_ID(),null,NULL,NULL,''LIMITED'') s

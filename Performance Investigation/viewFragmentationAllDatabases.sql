@@ -1,7 +1,7 @@
 Declare @Fragmentation table (DBName varchar(128), TableName varchar(128), IndexName varchar (100), FragPercent float, pageCount int);
 
 Insert into @Fragmentation
-exec SP_MSforeachdb @command1 = 
+exec sp_MSforeachdb @command1 = 
             'use [?];
                 select DB_NAME() as [Database Name], o.name as [Table Name], i.name as [Index Name], avg_fragmentation_in_percent as [Fragmentation Percentage],
 page_count as [Page Count]

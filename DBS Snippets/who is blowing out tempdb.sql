@@ -1,4 +1,5 @@
 --Check Version Store usage first. See Q:\DBA Team\Version_Store\VersionStore.docx for more details if it's using heaps of space
+-- also see https://thesurfingdba.weebly.com/my-version-store-is-huge.html
 	execute ('use [tempdb]; select (sum(version_store_reserved_page_count)*8)/1024  as ''VersionStore_MB'' from sys.dm_db_file_space_usage;');
  
 --Who's blowing out TempDB
