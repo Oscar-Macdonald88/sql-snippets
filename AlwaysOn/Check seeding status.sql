@@ -1,0 +1,1 @@
+select * from sys.dm_hadr_physical_seeding_stats

@@ -8,6 +8,7 @@ create table #temp_indexes
 (
     servername sql_variant,
     database_name nvarchar(255),
+    schema_name nvarchar(255),
     table_name nvarchar(255),
     index_name nvarchar(255),
     index_type_desc nvarchar(60),
@@ -30,11 +31,12 @@ WHILE @@FETCH_STATUS = 0
 BEGIN
     SET @SQL = 'USE ' + QUOTENAME(@DatabaseName) + ';
     INSERT INTO #temp_indexes
-    select serverproperty(''servername''), d.name databasename, o.name tablename, i.name indexname, index_type_desc,
+    select serverproperty(''servername''), d.name databasename, sc.name schema_name, t.name tablename, i.name indexname, index_type_desc,
 avg_fragmentation_in_percent, avg_fragment_size_in_pages, page_count
 from sys.dm_db_index_physical_stats(DB_ID(),null,NULL,NULL,''LIMITED'') s
 join sys.databases d on s.database_id = d.database_id
-join sys.objects o on s.object_id = o.object_id
+join sys.tables t on s.object_id = t.object_id
+join sys.schemas sc on sc.schema_id = t.schema_id
 join sys.indexes i on s.index_id = i.index_id
             and s.object_id = i.object_id
 			and s.database_id = d.database_id

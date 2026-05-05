@@ -1,4 +1,4 @@
---Query Toolset Backups and Maantenance
+--Query Toolset Backups and Maintenance
 Declare @CommandType nvarchar(50)
 
 /* Uncomment Required Command Type */
@@ -12,7 +12,10 @@ Declare @CommandType nvarchar(50)
 --Set @CommandType = 'xp_delete_file'
 
 SELECT 
-    DatabaseName, 
+    DatabaseName,
+    SchemaName,
+    ObjectName,
+    IndexName,
     Command, 
     CommandType, 
     StartTime, 
@@ -20,8 +23,9 @@ SELECT
     CONVERT(VARCHAR, DATEDIFF(SECOND, StartTime, EndTime) / 86400) + ':' +
     RIGHT('0' + CONVERT(VARCHAR, (DATEDIFF(SECOND, StartTime, EndTime) % 86400) / 3600), 2) + ':' +
     RIGHT('0' + CONVERT(VARCHAR, (DATEDIFF(SECOND, StartTime, EndTime) % 3600) / 60), 2) + ':' +
-    RIGHT('0' + CONVERT(VARCHAR, DATEDIFF(SECOND, StartTime, EndTime) % 60), 2) AS 'Duration (D:HH:MM:SS)', 
-    ErrorNumber 
+    RIGHT('0' + CONVERT(VARCHAR, DATEDIFF(SECOND, StartTime, EndTime) % 60), 2) AS 'Duration (D:HH:MM:SS)',
+    ErrorNumber,
+    ExtendedInfo
 FROM 
     DBAToolset.dbo.CommandLog
 

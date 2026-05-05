@@ -16,3 +16,4 @@ select @command = 'use [?] SELECT db_name(), ROUND(SUM(CAST(size as bigint)) * 8
 insert into #FileSizes exec sp_msforeachdb @command
 
 select * from #FileSizes where dbname not in ('master','model','msdb','tempdb','EIT_DBA') order by dbname
+select sum(Size_MBs)/1024 as Size_GB from #FileSizes where dbname not in ('master','model','msdb','tempdb','EIT_DBA')

@@ -1,7 +1,3 @@
-
-
-
-
 DECLARE @DatabaseName VARCHAR(40)
 DECLARE @DatabaseID Int
 
